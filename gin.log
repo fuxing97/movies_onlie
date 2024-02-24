@@ -1,0 +1,4 @@
+[GIN] 2024/01/27 - 20:05:15 | 200 |     13.8603ms |       127.0.0.1 | GET      "/home"
+[GIN] 2024/01/27 - 20:05:15 | 200 |    138.6338ms |       127.0.0.1 | GET      "/ajax/movie/getAll?pageSize=14&movie_type=tv"
+[GIN] 2024/01/27 - 20:05:16 | 200 |    645.4944ms |       127.0.0.1 | GET      "/ajax/movie/getbanner"
+[GIN] 2024/01/27 - 20:05:16 | 200 |    1.2473132s |       127.0.0.1 | GET      "/ajax/movie/getAll?pageSize=14&movie_type=movie"
