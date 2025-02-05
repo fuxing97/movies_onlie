@@ -1,0 +1,235 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+  <script src="/static/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+  <script src="/static/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+  <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="/static/js/common.js" type="text/javascript"></script>
+  <title>首页</title>
+  <script>
+
+    $.ajax({
+      type: "get",
+      url: "http://127.0.0.1:8088/ajax/movie/getbanner",
+      data: {
+      },
+      crossDomain: true,
+      
+      success: function (res) {
+        let banner = document.querySelector("#banner_clearfix");
+        let banner_bd = document.querySelector("#banner_bd");
+        let d = '';
+        let banner_bd_data = ""
+        for (let i = 0; i < res.data.list.length; i++) {
+          title = res.data.list[i].movie_name
+          poster = res.data.list[i].img_cover
+          update_info = res.data.list[i].update_info
+          description = res.data.list[i].description
+          id = res.data.list[i].id
+          d += `<li><a href="/voddetail/` + id + `.html"><img src="` + poster + `" /></a></li>`;
+          banner_bd_data += `<li style="background:url(` + poster + `) no-repeat center; height:420px;"><a href="/voddetail/` + id + `.html" class="banner_a"><div class="banner_info"><h1 class="entity_title">` + title + `</h1>
+					<h2 class="entity_title">`+ update_info + `</h2>
+					<p class="entity_title">`+ description + `</p></div></a></li>`;
+        }
+        banner.innerHTML = d;
+        banner_bd.innerHTML = banner_bd_data;
+        jQuery("#wrapper_slideBox").slide({ mainCell: ".bd ul", autoPlay: true, delayTime: 1000 });
+
+      }
+    })
+
+    $.ajax({
+      type: "get",
+      url: "http://127.0.0.1:8088/ajax/movie/getAll?pageSize=14&movie_type=movie",
+      data: {
+      },
+      crossDomain: true,
+      
+      success: function (res) {
+        dataList = res.data.list
+        let movieBox = document.querySelector("#movie_box");
+        let movieInnerHtml = "";
+        for (let i = 0; i < dataList.length; i++) {
+          movieInnerHtml += ` <li class="Case_info">
+       <a href="/voddetail/`+ dataList[i].id + `.html" class="movie_link">
+       <img src="`+ dataList[i].img_cover + `"  width="100%" height="100%"/>
+       <div class="movie_title">
+        <i class="fraction">`+ dataList[i].score + `</i>
+        <p class="name">`+ dataList[i].movie_name + `</p>
+        <h5>`+ dataList[i].category + `</h5>
+       </div>
+       </a>
+       </li>`
+        }
+        movieBox.innerHTML = movieInnerHtml
+      }
+    })
+
+    $.ajax({
+      type: "get",
+      url: "http://127.0.0.1:8088/ajax/movie/getAll?pageSize=14&movie_type=tv",
+      data: {
+      },
+      crossDomain: true,
+      
+      success: function (res) {
+        dataList = res.data.list
+        let tvBox = document.querySelector("#tv_box");
+        let tvInnerHtml = "";
+        for (let i = 0; i < dataList.length; i++) {
+          tvInnerHtml += ` <li class="Case_info">
+       <a href="/voddetail/`+ dataList[i].id + `.html" class="movie_link">
+       <img src="`+ dataList[i].img_cover + `"  width="100%" height="100%"/>
+       <div class="movie_title">
+        <i class="fraction">`+ dataList[i].score + `</i>
+        <p class="name">`+ dataList[i].movie_name + `</p>
+        <h5>`+ dataList[i].category + `</h5>
+       </div>
+       </a>
+       </li>`
+        }
+        tvBox.innerHTML = tvInnerHtml
+      }
+    })
+  </script>
+
+</head>
+
+<body class="background_color">
+
+  <div class="Slideshow_style" id="Slideshow">
+    <div class="header_top">
+      <div class="header clearfix">
+        <a href="/home" class="logo_style"><img src="/static/images/logo.png" heigth="60px" width="150px"
+            style="margin-top:14px;" /></a>
+        <div class="search_stye">
+          <input name="" type="text" class="search" /><button name="" type="button" class=" btn-success button_submit"
+            onclick="submit_btn()"><i class="icon_search"></i>搜索</button>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper" id="wrapper_slideBox">
+      <div class="hd Switch_operation">
+        <ul class=" clearfix" id="banner_clearfix">
+        </ul>
+      </div>
+      <div class="bd">
+        <ul id="banner_bd">
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="home_style  Channel">
+    <!--栏目-->
+    <div class="home_Column_style">
+      <div class="Column_list clearfix navigation_list">
+        <ul class="">
+          <li class="Channel_name"><a href="home"><i class="icon_TV"></i>首页</a></li>
+          <li class="Channel_name2"><a href="/tv_list"><i class="icon_TV"></i>电视剧</a></li>
+          <li class="Channel_name3"><a href="/movie_list"><i class="icon_TV"></i>电影</a></li>
+        </ul>
+      </div>
+      <!--栏目-->
+      <div class="Column_list navigation">
+        <a href="#" class="w_logo"><img src="/static/images/logo.png" width="100%" /></a>
+        <div class="navigatio_name">
+          <a href="javascript:" class="mouse-enter"><i class="icon_navigatio"></i>导航</a>
+          <div class="navigatio_nav">
+            <ul class=" clearfix">
+              <li class="Channel_name"><a href="home"><i class="icon_TV"></i>首页</a></li>
+              <li class="Channel_name2"><a href="#"><i class="icon_TV"></i>电视剧</a></li>
+              <li class="Channel_name3"><a href="#"><i class="icon_TV"></i>电影</a></li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="Video_search">
+          <input name="" type="text" class="search" /><button name="" type="button"
+            class=" btn-success button_submit"><i class="icon_search"></i>搜索</button>
+        </div>
+      </div>
+    </div>
+    <div class="Channels margintb">
+      <div class="title_name clearfix">
+        <i class="icon_title"><img src="/static/images/icon_film.png" /></i>电影<span class="link_name"><a
+            href="/movie_list">更多</a></span>
+      </div>
+      <div class="clearfix  ">
+        <ul class="movie_list  clearfix" id="movie_box">
+
+        </ul>
+      </div>
+    </div>
+    <div class="Channels margintb">
+      <div class="title_name clearfix">
+        <i class="icon_title"><img src="/static/images/icon_tv.png" /></i>电视剧<span class="link_name"><a
+            href="/tv_list">更多</a></span>
+      </div>
+      <div class="clearfix  ">
+        <ul class="movie_list  clearfix" id="tv_box">
+
+        </ul>
+      </div>
+    </div>
+    <!-- <div class="l_f width50">
+      <div class="bg mr10">
+        <div class="n_title_name"><em class=""></em>网站公告</div>
+        <ul class="notice_list clearfix">
+          <li><a href="#"><i class="icon_yuan"></i>暂无</a> </li>
+        </ul>
+      </div>
+    </div> -->
+    <!-- <div class="l_f width50">
+      <div class="bg ml10">
+        <div class="n_title_name">合作伙伴</div>
+        <div class="notice_list clearfix">
+          <a href="#" class="Cooperation_name">爱奇艺</a>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  </div>
+  <!--底部样式-->
+  <div class="footer_style">
+    <div class="footer">
+      <div class="link_name">
+        <a href="#">关于我们</a>|<a href="#">媒体合作</a>|<a href="#">开放平台</a>|<a href="#">广告服务</a>|<a href="#">联系我们</a>|<a
+          href="#">工作机会</a>|<a href="#">友情链接</a>
+      </div>
+      <div class="Copyright">Copyright © 2023-2099 影视宝库（film.vauilt.com）All rights reserved.</div>
+      <div class="align clearfix">
+        <a href="#"><img src="/static/images/ghs.png" />京公网安备：xxxxxxxxxxxxxxxx号</a> &nbsp;&nbsp;&nbsp;
+        <a href="#"><img src="/static/images/xy.png" />中国互联网诚信联盟</a>
+      </div>
+    </div>
+
+  </div>
+  <!-- 代码 开始 -->
+  <div class="go-top dn" id="go-top">
+
+    <a href="#" target="_blank" class="feedback"></a>
+    <a href="javascript:;" class="go"></a>
+  </div>
+</body>
+
+</html>
+<script>
+  /*********搜索*********/
+  function submit_btn() {
+    $(".search_stye input[type$='text']").each(function (n) {
+      if ($(this).val() == "") {
+        alert("搜索不能为空！");
+      }
+      else {
+        location.href = "/query/" + $(this).val()
+
+      }
+    })
+  }
+</script>

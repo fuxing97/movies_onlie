@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+    <script src="/static/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="/static/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+    <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+    <script src="/static/js/layer/layer.js" type="text/javascript"></script>
+    <script src="/static/js/offlights.js" type="text/javascript"></script>
+    <script src="/static/js/jquery.nicescroll.js " type="text/javascript"></script>
+    <link type="text/css" rel="stylesheet" href="/static/js/ckplayer/css/ckplayer.css" />
+    <title></title>
+</head>
+
+<body>
+    <div id="header_top">
+        <div class="page_header">
+            <div class="header_style">
+                <div class="clearfix">
+                    <a href="/home" class="logo_style"><img src="/static/images/logo.png" width="150px" style="margin-top:10px;height:40px;"/></a>
+                    <ul class="nav_list">
+                        <li class="nav_link"><a href="/home" class="Channel_name"><i class="i icon_home"></i>首页</a>
+                        </li>
+                        <li class="nav_link Channel_link">
+                            <a href="javascript:" class="Channel_name"><i class="i icon_nav"></i>频道<i
+                                    class="i i_arw2"></i></a>
+                            <div class="Channel_nav_list">
+                                <ul class=" clearfix">
+                                    <li class="Channel_color"><a href="/tv_list"><i class="icon_TV"></i>电视剧</a>
+                                    </li>
+                                    <li class="Channel_color split_line"><a href="/movie_list"><i class="icon_TV"></i>电影</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="search_style">
+                        <input name="" type="text" class="search" /><button name="" type="button" class="button_submit"
+                            onclick="submit_btn()"><i class="icon_search"></i>搜索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--视频播放-->
+        <div class="Video_playback_style">
+            <div class="page_style clearfix">
+                <!--面包屑-->
+                <div class="Location_link">
+
+                </div>
+                <!---->
+                <div class="Video_playback">
+                    <div class="playback_title"></div>
+                    <div class="page_style clearfix" id="videoArea">
+                        <div id="a1" class="videoArea"></div>
+
+                        <div id="playerlist_style">
+                            <div id="a2" class="listcontrol-btn close_btn" title="收起列表"><i
+                                    class="site-icons-play icon-listcontrol-right"></i></div>
+                            <div id="a3" class="show_btn" title="展开列表">
+                                <div class="listcontrol-pack-con"><i
+                                        class="site-icons-play icon-listcontrol-left"></i>展开列表</div>
+                            </div>
+                            <div class="listcontrol_content">
+                                <div id="playerlist">
+                                    <div class="hd">
+                                        <ul>
+                                            <li>选集<i class="jt"></i></li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="bd" id="videomenu_style">
+                                        <ul class="Episodes_list clearfix">
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <script>jQuery("#playerlist").slide({ delayTime: 0 });</script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div class="play_video_b">
+            <div class="page_style">
+                <div class="l_f  frequency" id="play_vod_hits"><em class="icon_tup"></em><i id="play_count"></i>次播放</div>
+            </div>
+        </div>
+        <div class="page_style">
+        </div>
+    </div>
+    <div class="footer_style">
+        <div class="footer">
+            <div class="link_name">
+                <a href="#">关于我们</a>|<a href="#">媒体合作</a>|<a href="#">开放平台</a>|<a href="#">广告服务</a>|<a
+                    href="#">联系我们</a>|<a href="#">工作机会</a>|<a href="#">友情链接</a>
+            </div>
+            <div class="Copyright">Copyright © 2023-2099 影视宝库（film.vauilt.com）All rights reserved.</div>
+            <div class="align clearfix">
+                <a href="#"><img src="/static/images/ghs.png" />京公网安备：xxxxxxxxxxxxxxxx号</a> &nbsp;&nbsp;&nbsp;
+                <a href="#"><img src="/static/images/xy.png" />中国互联网诚信联盟</a>
+            </div>
+        </div>
+
+    </div>
+    <!-- 代码 开始 -->
+    <div class="go-top dn" id="go-top">
+
+        <a href="#" target="_blank" class="feedback"></a>
+        <a href="javascript:;" class="go"></a>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="/static/js/ckplayer/js/ckplayer.js" charset="utf-8"></script>
+<script>
+    $(".bd").niceScroll({
+        cursorcolor: "#888888",
+        cursoropacitymax: 1,
+        touchbehavior: false,
+        cursorwidth: "5px",
+        cursorborder: "0",
+        cursorborderradius: "5px"
+    });
+    nowURL = this.location.pathname
+    // 获取id
+    vID = nowURL.match(/player\/(.+?).html/)[1]
+    $.ajax({
+        type: "get",
+        url: "http://127.0.0.1:8088/ajax/player/getSource?id=" + vID,
+        data: {
+        },
+        
+        crossDomain: true,
+        
+        success: function (res) {
+            md5ID = res.data.movie_id
+            vName = res.data.video_name
+            $.ajax({
+                type: "get",
+                url: "http://127.0.0.1:8088/ajax/movie/getMd5IDInfo?id=" + md5ID,
+                data: {
+                },
+                crossDomain: true,
+                
+                success: function (res) {
+                    resData = res.data
+                    title = resData.movie_name
+
+                    movie_type = resData.movie_type
+                    if (movie_type == "电影") {
+                        m_type = "movie"
+                    } else {
+                        m_type = "tv"
+                    }
+                    document.querySelector(".playback_title").innerHTML = title + " " + vName
+                    $("title").html(title + " " + vName)
+                    document.querySelector(".Location_link").innerHTML = `<em></em><a href="/home">首页</a>  &lt;   <a href="/` + m_type + `_list">` + movie_type + `</a> &lt; <a  href="/voddetail/` + resData.id + `.html"><span>` + title + " " + vName + `</a></span> `
+                }
+            })
+            $.ajax({
+                type: "get",
+                url: 'http://127.0.0.1:8088/ajax/player/getVideoInfo?id=' + md5ID,
+                data: {
+                },
+                crossDomain: true,
+                
+                success: function (resEp) {
+                    let epData = ""
+                    epDoc = document.querySelector(".Episodes_list.clearfix")
+                    // 遍历剧集
+                    for (let i = 0; i < resEp.data.list.length; i++) {
+                        epName = resEp.data.list[i].video_name
+                        volume_class = "volume"
+                        if (resEp.data.list[i].id==vID){
+                            volume_class = "volume selected"
+                        }
+                        
+                        epData += `<li onclick="playvideo(3)" class="`+volume_class+`"><a
+                                                    href="/player/`+ resEp.data.list[i].id + `.html"rseat="sht_1" title="` + epName + `">` + epName + ` </a>
+                                            </li>`;
+                    }
+                    epDoc.innerHTML = epData
+                }
+            })
+
+            var videoObject = {
+                container: '.videoArea',//“#”代表容器的ID，“.”或“”代表容器的class
+                variable: "player",//该属性必需设置，值等于下面的new chplayer()的对象
+                autoplay: true,
+                plug: "hls.js",
+                crossOrigin: "*",
+                video: res.data.source_url,
+                loaded: add_play_count,
+            };
+            // 获取播放次数、点赞、踩等信息
+            $.ajax({
+                type: "get",
+                url: 'http://127.0.0.1:8088/ajax/video_action/get?vid=' + vID,
+                data: {
+                },
+                crossDomain: true,
+                
+                success: function (res) {
+                    play_count = res.data.play_count
+                    $("#play_count").html(play_count)
+
+                }
+            })
+            var player = new ckplayer(videoObject);
+        }
+    })
+    function add_play_count() {
+        $.ajax({
+            type: "get",
+            url: "http://127.0.0.1:8088/ajax/video_action/add_play?vid=" + vID,
+            data: {
+            },
+            crossDomain: true,
+            success: function (res) {
+                $("#play_count").html(res.data.playCount)
+            }
+        })
+    }
+
+</script>
+<script type="text/javascript">
+
+    $(function () {
+        $("#videoArea").fix({
+            float: 'right',	//default.left or right
+            //minStatue : true,
+            skin: 'green',	//default.gray or blue
+            durationTime: 300
+        });
+    });
+</script>
+<script>
+    /*********搜索*********/
+    function submit_btn() {
+        $(".search_style input[type$='text']").each(function (n) {
+            if ($(this).val() == "") {
+        alert("搜索不能为空！");
+      }
+      else {
+        location.href = "/query/" + $(this).val()
+
+      }
+    })
+    }
+</script>

@@ -1,0 +1,6 @@
+database:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: Lfx19971101!
+  database_name: movies_online

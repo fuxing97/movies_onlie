@@ -1,0 +1,182 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="min-height: 100%;">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+  <script src="/static/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+  <script src="/static/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+  <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="/static/js/common.js" type="text/javascript"></script>
+  <script src="/static/js/layer/layer.js" type="text/javascript"></script>
+  <title></title>
+  <script>
+    nowURL = this.location.pathname
+    // 获取id
+    vID = nowURL.match(/voddetail\/(.+?).html/)[1]
+    $.ajax({
+      type: "get",
+      url: "http://127.0.0.1:8088/ajax/movie/getMovieInfo?id=" + vID,
+      data: {
+      },
+      crossDomain: true,
+      
+      success: function (res) {
+        resData = res.data
+        title = resData.movie_name
+        category = resData.category
+        poster = resData.img_cover
+        actors = resData.actors
+        movie_id = resData.movie_id
+        directors = resData.directors
+        year = resData.year
+        language = resData.language
+        duration = resData.duration
+        detail = resData.description
+        country = resData.country
+        score = resData.score
+        update_info = resData.update_info
+        movie_type = resData.movie_type
+        let movie_info = document.querySelector("#movie_info");
+        let movie_html = `<div class="Television_content l_f">
+  <div class="score_style">评分：<b>`+ score + `</b>分</div>
+   <dl class="movie_info clearfix">
+    <dt>`+ title + `<span class="Quantity">` + update_info + `</span></dt>
+    <dd><label>主演：</label> 
+    <span>`+ actors + `</span> 
+    </dd>
+    <dd><label>导演：</label> <span>`+ directors + `</span> </dd>
+    <dd><label>类型：</label> <span>`+ category + `</span> </dd>
+    <dd><label>地区：</label> <span>`+ country + `</span> </dd>
+    <dd><label>年份：</label> <span>`+ year + `</span> </dd>
+   </dl>
+   <div class="Introduction">`+ detail + `</div>
+  </div>`
+        movie_info.innerHTML = movie_html
+        let movie_poster = document.querySelector("#movie_poster");
+        let movie_poster_html = `<a href="javascrpt:"><img src="` + poster + `" />`
+        movie_poster.innerHTML = movie_poster_html
+        $("title").html(title)
+        if (movie_type == "电影") {
+          m_type = "movie"
+        } else {
+          m_type = "tv"
+        }
+        document.querySelector("#location_link").innerHTML = `<em></em><a href="/home">首页</a>  &lt;   <a href="/` + m_type + `_list">` + movie_type + `</a> &lt; <span>` + title + `</span> `
+
+        $.ajax({
+          type: "get",
+          url: 'http://127.0.0.1:8088/ajax/player/getVideoInfo?id=' + movie_id,
+          data: {
+          },
+          crossDomain: true,
+          
+          success: function (resEp) {
+            total = resEp.data.total
+            document.querySelector("#title_name").innerHTML = movie_type + `<p>（视频数` + total + `个）</p>`
+            let epData = ""
+            epDoc = document.querySelector("#Episode_list")
+            // 遍历剧集
+            for (let i = 0; i < resEp.data.list.length; i++) {
+              epData += `<li><a href="/player/` + resEp.data.list[i].id + `.html" style="ext-overflow: -o-ellipsis-lastline;overflow: hidden;text-overflow: ellipsis;" title="` + resEp.data.list[i].video_name + `">` + resEp.data.list[i].video_name + `</a></li>`;
+            }
+            epDoc.innerHTML = epData
+          }
+        })
+      }
+
+
+    })
+  </script>
+</head>
+
+<body style="min-height: 100%;">
+  <div id="header_top">
+    <div class="page_header">
+      <div class="header_style">
+        <div class="clearfix">
+          <a href="/home" class="logo_style"><img src="/static/images/logo.png" heigth="60px" width="150px"
+              style="margin-top:6px;" /></a>
+          <ul class="nav_list">
+            <li class="nav_link"><a href="/home" class="Channel_name"><i class="i icon_home"></i>首页</a></li>
+            <li class="nav_link Channel_link">
+              <a href="javascript:" class="Channel_name"><i class="i icon_nav"></i>频道<i class="i i_arw2"></i></a>
+              <div class="Channel_nav_list">
+                <ul class=" clearfix">
+                  <li class="Channel_color"><a href="/tv_list"><i class="icon_TV"></i>电视剧</a></li>
+                  <li class="Channel_color split_line"><a href="/movie_list"><i class="icon_TV"></i>电影</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+          <div class="search_style">
+            <input name="" type="text" class="search" /><button name="" type="button" class="button_submit"
+              onclick="submit_btn()"><i class="icon_search"></i>搜索</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!---->
+    <div class="page_style">
+      <div class="Location_link" id="location_link">
+
+      </div>
+      <!--介绍-->
+      <div class="clearfix Television_style">
+        <div class="Television_img l_f" id="movie_poster">
+
+          <span class="first_bg"><i class="icon_bf"></i></span>
+          </a>
+        </div>
+        <div class="clearfix" id="movie_info">
+
+        </div>
+        <div class="Episodes_style margintb clearfix">
+          <div class="title_name" id="title_name"></div>
+          <div class="Episodes_number">
+            <ul class="diversity_list" id="Episode_list">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- 代码 开始 -->
+      <div class="go-top dn" id="go-top">
+
+        <a href="#" target="_blank" class="feedback"></a>
+        <a href="javascript:;" class="go"></a>
+      </div>
+      </div>
+      <div class="footer_style" style="margin-top: 100px;">
+        <div class="footer">
+          <div class="link_name">
+            <a href="#">关于我们</a>|<a href="#">媒体合作</a>|<a href="#">开放平台</a>|<a href="#">广告服务</a>|<a href="#">联系我们</a>|<a
+              href="#">工作机会</a>|<a href="#">友情链接</a>
+          </div>
+          <div class="Copyright">Copyright © 2023-2099 影视宝库（film.vauilt.com）All rights reserved.</div>
+          <div class="align clearfix">
+            <a href="#"><img src="/static/images/ghs.png" />京公网安备：xxxxxxxxxxxxxxxx号</a> &nbsp;&nbsp;&nbsp;
+            <a href="#"><img src="/static/images/xy.png" />中国互联网诚信联盟</a>
+          </div>
+        </div>
+</body>
+
+</html>
+<script>
+  /*********搜索*********/
+  function submit_btn() {
+    $(".search_style input[type$='text']").each(function (n) {
+      if ($(this).val() == "") {
+        alert("搜索不能为空！");
+      }
+      else {
+        location.href = "/query/" + $(this).val()
+
+      }
+    })
+  }
+</script>

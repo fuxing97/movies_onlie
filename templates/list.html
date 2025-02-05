@@ -1,0 +1,233 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+  <script src="/static/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+  <script src="/static/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+  <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="/static/js/common.js" type="text/javascript"></script>
+  <title>列表</title>
+</head>
+
+<body class="background_color ">
+  <div id="header_top">
+    <div class="page_header">
+      <div class="header_style">
+        <div class="clearfix">
+          <a href="/home" class="logo_style"><img src="/static/images/logo.png" width="150px" /></a>
+          <ul class="nav_list">
+            <li class="nav_link"><a href="/home" class="Channel_name"><i class="i icon_home"></i>首页</a></li>
+            <li class="nav_link Channel_link">
+              <a href="javascript:" class="Channel_name"><i class="i icon_nav"></i>频道<i class="i i_arw2"></i></a>
+              <div class="Channel_nav_list">
+                <ul class=" clearfix">
+                  <li class="Channel_color split_line"><a href="/tv_list"><i class="icon_TV"></i>电视剧</a></li>
+                  <li class="Channel_color split_line"><a href="/movie_list"><i class="icon_TV"></i>电影</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+          <div class="search_style">
+            <input name="" type="text" class="search" /><button name="" type="button" class="button_submit"
+              onclick="submit_btn()"><i class="icon_search"></i>搜索</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---->
+  <div class="page_style">
+    <div class=" clearfix">
+      <!--栏目-->
+      <div class="home_Column_style">
+        <h2 id="top_title" class="top_title"></h2>
+      </div>
+    </div>
+    <!--列表展示-->
+    <div class="movielist" id="movie_list">
+      <ul class="clearfix" id="item_crash">
+
+
+      </ul>
+      <!--分页样式-->
+      <div class="Paging">
+        <!-- <a href="#" class="pn-prev disabled">&lt;上一页</a>
+        <a href="#" class="on">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">...</a>
+        <a href="#">12</a>
+        <a href="#">下一页&gt;</a>
+        <a href="#">尾页</a> -->
+
+      </div>
+
+    </div>
+  </div>
+  <!--底部样式-->
+  <div class="footer_style">
+    <div class="footer">
+      <div class="link_name">
+        <a href="#">关于我们</a>|<a href="#">媒体合作</a>|<a href="#">开放平台</a>|<a href="#">广告服务</a>|<a href="#">联系我们</a>|<a
+          href="#">工作机会</a>|<a href="#">友情链接</a>
+      </div>
+      <div class="Copyright">Copyright © 2023-2099 影视宝库（film.vauilt.com）All rights reserved.</div>
+      <div class="align clearfix">
+        <a href="#"><img src="/static/images/ghs.png" />京公网安备：xxxxxxxxxxxxxxxx号</a> &nbsp;&nbsp;&nbsp;
+        <a href="#"><img src="/static/images/xy.png" />中国互联网诚信联盟</a>
+      </div>
+    </div>
+
+  </div>
+  <!-- 代码 开始 -->
+  <div class="go-top dn" id="go-top">
+
+    <a href="#" target="_blank" class="feedback"></a>
+    <a href="javascript:;" class="go"></a>
+  </div>
+</body>
+
+</html>
+<script>
+
+  /****************************************/
+  var dlNum = $("#selectList").find("dl");
+  for (i = 0; i < dlNum.length; i++) {
+    $(".hasBeenSelected .clearList").append("<div class=\"selectedInfor selectedShow\" style=\"display:none\"><label></label><em></em></div>");
+  }
+  var refresh = "true";
+  $(".listIndex a ").bind("click", function () {
+    var text = $(this).text();
+    var selectedShow = $(".selectedShow");
+    var textTypeIndex = $(this).parents("dl").index();
+    var textType = $(this).parent("dd").siblings("dt").text();
+    index = textTypeIndex - (2);
+    $(".clearDd").show();
+    $(".selectedShow").eq(index).show();
+    $(this).addClass("selected").siblings().removeClass("selected");
+    selectedShow.eq(index).find("span").text(textType);
+    selectedShow.eq(index).find("label").text(text);
+    var show = $(".selectedShow").length - $(".selectedShow:hidden").length;
+    if (show > 1) {
+      $(".eliminateCriteria").show();
+    }
+
+  });
+  $(".selectedShow em").bind("click", function () {
+    $(this).parents(".selectedShow").hide();
+    var textTypeIndex = $(this).parents(".selectedShow").index();
+    index = textTypeIndex;
+    $(".listIndex").eq(index).find("a").removeClass("selected");
+
+    if ($(".listIndex .selected").length < 2) {
+      $(".eliminateCriteria").hide();
+    }
+  });
+
+  $(".eliminateCriteria").bind("click", function () {
+    $(".selectedShow").hide();
+    $(this).hide();
+    $(".listIndex a ").removeClass("selected");
+  });
+  /*********搜索*********/
+  function submit_btn() {
+    $(".search_style input[type$='text']").each(function (n) {
+      if ($(this).val() == "") {
+        alert("搜索不能为空！");
+      }
+      else {
+        location.href = "/query/" + $(this).val()
+
+      }
+    })
+  }
+</script>
+
+
+<script>
+  nowURL = this.location.pathname
+  pLast = nowURL.split("/")[1]
+  pNum = nowURL.split("/")[3]
+  if (pLast == "tv_list") {
+    movie_type = "tv"
+    $("title").html("电视剧列表")
+    $("#top_title").html("电视剧列表")
+  } else if (pLast == "movie_list") {
+    movie_type = "movie"
+    $("title").html("电影列表")
+    $("#top_title").html("电影列表")
+  }
+  listURL = "http://127.0.0.1:8088/ajax/movie/getAll?pageSize=15&movie_type=" + movie_type + "&pageNum=" + pNum
+  $.ajax({
+    type: "get",
+    url: listURL,
+    data: {
+    },
+    crossDomain: true,
+    
+    success: function (res) {
+      dataList = res.data.list
+      let crashBox = document.querySelector("#item_crash");
+      let crashInnerHtml = "";
+      totalCount = res.data.total
+      totalPageNum = Math.ceil(totalCount / 15)
+      nowPage = res.data.pageNum
+      let pageBox = document.querySelector(".Paging");
+      let pageInnerHtml = ""
+      if (nowPage == 1) {
+        pageInnerHtml += `<a href="/` + pLast + `" class="on">1</a>`
+
+      } else {
+        preveURL = "/" + pLast + "/page/" + (nowPage - 1)
+        pageInnerHtml += `<a href="` + preveURL + `" class="pn-prev disabled">&lt;上一页</a>`
+        pageInnerHtml += `<a href="/` + pLast + `/page/` + nowPage + `" class="on">` + nowPage + `</a>`
+      }
+      pageCount = 0
+      for (k = nowPage; k < totalPageNum; k++) {
+        pageCount += 1
+        if (pageCount <= 4) {
+          pageInnerHtml += `<a href="/` + pLast + `/page/` + (nowPage + pageCount) + `">` + (nowPage + pageCount) + `</a>`
+        }
+      }
+      if (nowPage + 1 < totalPageNum) {
+        pageInnerHtml += `<a href="/` + pLast + `/page/` + (nowPage + 1) + `">下一页&gt;</a>`
+      }
+      if (nowPage != totalPageNum) {
+        pageInnerHtml += `<a href="/` + pLast + `/page/` + totalPageNum + `">尾页</a>`
+      }
+
+      pageInnerHtml += `<span class="p-skip"><em>共<b>` + totalPageNum + `</b>页&nbsp;&nbsp;到第</em><input id="page_jump_num" value=""
+            class="input-txt"><em>页</em><a
+            href="javascript:page_jump();" class="btn btn-default" onkeydown="javascript:{page_jump();return false;}">确定</a></span>`
+      pageBox.innerHTML = pageInnerHtml
+      for (let i = 0; i < dataList.length; i++) {
+        crashInnerHtml += ` <li class="movie_theme">
+          <a href="/voddetail/`+ dataList[i].id + `.html" class="movie_img">
+            <img src="`+ dataList[i].img_cover + `" width="183px;" />
+            <span class="v_title">
+              <em>`+ dataList[i].update_info + `</em><i class="fraction">` + dataList[i].score + `分</i>
+            </span>
+          </a>
+          <div class="movie_title">
+            <p class="movie_name"><a href="#" class="name">`+ dataList[i].movie_name + `</a></p>
+          </div>
+        </li>`
+      }
+      crashBox.innerHTML = crashInnerHtml
+    }
+  })
+  function page_jump() {
+    targetPage = $(".input-txt").val()
+    if (targetPage != "" && targetPage<=totalPageNum) {
+      targetURL = "/" + pLast + "/page/" + targetPage
+      window.location.href = targetURL
+    }
+
+  }
+</script>
